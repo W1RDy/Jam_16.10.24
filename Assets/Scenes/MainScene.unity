@@ -482,6 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e696d52fb544bb2479fe2b3cc67144b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _generator: {fileID: 587387809}
 --- !u!1 &289118838
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,6 +617,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 289118838}
   m_CullTransparentMesh: 1
+--- !u!1 &587387808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 587387810}
+  - component: {fileID: 587387809}
+  m_Layer: 0
+  m_Name: Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &587387809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587387808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9e9d2c433daeb4eacdf449782c45aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: {fileID: 607726635}
+  _reason: {fileID: 755774092}
+  _nature: {fileID: 2071527037}
+  _age: {fileID: 2065876702}
+  _mouseCount: {fileID: 1116575045}
+  _image: {fileID: 230577956}
+--- !u!4 &587387810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587387808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 940.70605, y: 563.90106, z: 3.9887347}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &607726633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,6 +2028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e696d52fb544bb2479fe2b3cc67144b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _generator: {fileID: 587387809}
 --- !u!1 &1681467692
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,3 +3049,4 @@ SceneRoots:
   - {fileID: 1705778690}
   - {fileID: 123895978}
   - {fileID: 31210303}
+  - {fileID: 587387810}
