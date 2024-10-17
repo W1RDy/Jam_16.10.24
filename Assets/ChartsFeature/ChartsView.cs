@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ChartsView
 {
-
-
     private GraphHandler _graphHandler;
 
     public ChartsView(GraphHandler graphHandler)
@@ -13,9 +11,14 @@ public class ChartsView
         _graphHandler = graphHandler; 
     }
 
-    public void GenerateWaveDiagram(double frequency, double amplitude, int length, int phase = 0)
+    //public void GenerateWaveDiagram(double frequency, double amplitude, int length, int phase = 0)
+    //{
+
+    //    GenerateWaveDiagram(wave);
+    //}
+
+    public void GenerateWaveDiagram(Wave wave)
     {
-        var wave = new Wave(frequency, amplitude, length, phase);
         _graphHandler.SetWave(wave);
     }
 }

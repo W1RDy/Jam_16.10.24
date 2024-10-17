@@ -14,9 +14,13 @@ public class Charts : MonoBehaviour
 
     [SerializeField] private GraphHandler _graphHandler;
 
+    public Wave Wave { get; private set; }
+
     private ChartsView _view;
 
     private bool _isDrawed;
+
+    public event Action OnChartUpdated;
 
     private void Awake()
     {
@@ -29,7 +33,7 @@ public class Charts : MonoBehaviour
         {
             if (!_isDrawed)
             {
-                UpdateChart();
+                UpdateChart(_frequency, _amplitude, _length);
                 _isDrawed = true;
             }
         }
@@ -42,11 +46,19 @@ public class Charts : MonoBehaviour
         _length = length;
         _phase = phase;
 
+        Wave = GenerateWave();
+
         UpdateChart();
+    }
+
+    private Wave GenerateWave()
+    {
+        return new Wave(_frequency, _amplitude, _length, _phase);
     }
 
     private void UpdateChart()
     {
-        _view.GenerateWaveDiagram(_frequency, _amplitude, _length, _phase);
+        _view.GenerateWaveDiagram(Wave);
+        OnChartUpdated?.Invoke();
     }
 }

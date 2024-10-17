@@ -36,12 +36,11 @@ public class GraphHandler : MonoBehaviour
     {
         foreach (var point in wave.Points)
         {
-            Debug.Log(point);
+            //Debug.Log(point);
             CreatePoint(point);
         }
 
         var middlePointOffset = new Vector2((wave.MaxXValue - wave.MinXValue) / 2, (wave.MaxYValue - wave.MaxYValue) / 2);
-        Debug.Log(middlePointOffset);
 
         InitZoomAndOffset(new Vector2(0.7f, 0.7f), _defaultOffset + middlePointOffset);
         //UpdatePositionAndScale();
@@ -322,7 +321,6 @@ public class GraphHandler : MonoBehaviour
 
     private void CreatePointInternal(Vector2 value)
     {
-        Debug.Log(points);
         int i = points.Count;
         GameObject outline = CreatePointOutline(i);
         GameObject point = new GameObject("Point" + i);

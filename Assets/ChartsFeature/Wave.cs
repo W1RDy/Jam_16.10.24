@@ -17,6 +17,11 @@ public class Wave
         GenerateWave(frequency, amplitude, length, phase);
     }
 
+    public Wave(Vector2[] points)
+    {
+        Points = points;
+    }
+
     private void GenerateWave(double frequency, double amplitude, int length, int phase = 0)
     {
         var x = Enumerable.Range(0, length).Select(i => i * 2 * Math.PI / length).ToArray();
