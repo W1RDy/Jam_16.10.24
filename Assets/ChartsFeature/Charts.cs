@@ -67,7 +67,7 @@ public class Charts : MonoBehaviour
 
     private void ChangeAmplitude(float amplitude)
     {
-        _amplitude = amplitude;
+        _amplitude += amplitude;
         UpdateChart(_frequency, _amplitude, _length);
     }
 

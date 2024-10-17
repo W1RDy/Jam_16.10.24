@@ -51,11 +51,19 @@ public class GraphHandler : MonoBehaviour
 
     private void RecreateGraph(Wave wave)
     {
-        for (var i = 0; i < wave.Points.Count(); i++)
+        for (var i = 0; i < wave.Points.Length; i++)
         {
-            ChangePointInternal(i, wave.Points[i]);
+            ChangePointInternal(i, wave.Points[i], wave.Points.Length);
         }
+        SortIndices();
+        UpdateGraph();
     }
+
+    private void ChangePointInternal(int index, Vector2 newValue, int waveLength)
+    {
+        values[index] = newValue;
+    }
+
 
     private void InitZoomAndOffset(Vector2 targetZoom, Vector2 targetMoveOffset)
     {
@@ -352,12 +360,6 @@ public class GraphHandler : MonoBehaviour
         SortIndices();
         if (value.x < bottomLeft.x || value.x > topRight.x)
             outline.SetActive(false);
-    }
-
-    private void ChangePointInternal(int index, Vector2 newValue)
-    {
-        values[index] = newValue;
-        SortIndices();
     }
 
     private void SortIndices()
