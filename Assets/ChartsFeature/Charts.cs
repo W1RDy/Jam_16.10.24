@@ -14,6 +14,8 @@ public class Charts : MonoBehaviour
 
     [SerializeField] private GraphHandler _graphHandler;
 
+    [SerializeField] private ChangeAmplitudeButton[] _buttons;
+
     public Wave Wave { get; private set; }
 
     private ChartsView _view;
@@ -25,6 +27,7 @@ public class Charts : MonoBehaviour
     private void Awake()
     {
         _view = new ChartsView(_graphHandler);
+        Subscribe();
     }
 
     public void Update()
@@ -60,5 +63,32 @@ public class Charts : MonoBehaviour
     {
         _view.GenerateWaveDiagram(Wave);
         OnChartUpdated?.Invoke();
+    }
+
+    private void ChangeAmplitude(float amplitude)
+    {
+        _amplitude = amplitude;
+        UpdateChart(_frequency, _amplitude, _length);
+    }
+
+    private void Subscribe()
+    {
+        foreach (var button in _buttons)
+        {
+            button.OnChangeAmplitude += ChangeAmplitude;
+        }
+    }
+
+    private void Unsubscribe()
+    {
+        foreach (var button in _buttons)
+        {
+            button.OnChangeAmplitude -= ChangeAmplitude;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
     }
 }

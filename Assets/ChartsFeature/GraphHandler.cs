@@ -12,19 +12,11 @@ public class GraphHandler : MonoBehaviour
 {
     #region accessible methods
 
+    private bool _isGenerated;
+
     public void CreatePoint(Vector2 newValue)
     {
         CreatePointInternal(newValue);
-    }
-
-    public void ChangePoint(int indexToChange, Vector2 newValue)
-    {
-        ChangePointInternal(indexToChange, newValue);
-    }
-
-    public void SetCornerValues(Vector2 newBottomLeft, Vector2 newTopRight)
-    {
-        SetCornerValuesInternal(newBottomLeft, newTopRight);
     }
 
     public void UpdateGraph()
@@ -34,18 +26,35 @@ public class GraphHandler : MonoBehaviour
 
     public void SetWave(Wave wave)
     {
+        if (!_isGenerated)
+        {
+            CreateGraph(wave);
+        }
+        else RecreateGraph(wave);
+
+    }
+
+    private void CreateGraph(Wave wave)
+    {
+        _isGenerated = true;
+
         foreach (var point in wave.Points)
         {
-            //Debug.Log(point);
             CreatePoint(point);
         }
 
         var middlePointOffset = new Vector2((wave.MaxXValue - wave.MinXValue) / 2, (wave.MaxYValue - wave.MaxYValue) / 2);
 
         InitZoomAndOffset(new Vector2(0.7f, 0.7f), _defaultOffset + middlePointOffset);
-        //UpdatePositionAndScale();
-
         UpdateGraph();
+    }
+
+    private void RecreateGraph(Wave wave)
+    {
+        for (var i = 0; i < wave.Points.Count(); i++)
+        {
+            ChangePointInternal(i, wave.Points[i]);
+        }
     }
 
     private void InitZoomAndOffset(Vector2 targetZoom, Vector2 targetMoveOffset)
@@ -97,8 +106,6 @@ public class GraphHandler : MonoBehaviour
     private Vector2Int prevXAxisRange = new Vector2Int(-1, -1);
     public int activePointIndex = -1;
     private Vector2 activePointValue = Vector2.zero;
-    public Vector2 ActivePointValue { get { return activePointValue; } }
-    private bool pointIsActive = false;
 
     private List<GameObject> points;
     private List<Image> pointImages;
@@ -186,11 +193,6 @@ public class GraphHandler : MonoBehaviour
     private List<int> initialLockedPoints;
     private List<int> recentlyLockedPoints;
 
-    private bool mouseInsideBounds = false;
-    private Vector2 mousePos;
-    private Vector2 previousMousePos;
-    private Vector2 initialMousePos = Vector2.zero;
-    private bool initialMouseInsideBounds = false;
     private Vector2 zoomPoint = Vector2.zero;
     private Vector2 absoluteZoomPoint = Vector2.zero;
 
@@ -201,9 +203,6 @@ public class GraphHandler : MonoBehaviour
     public Vector2 targetMoveOffset;
     private Vector2 initialMoveOffset = Vector2.zero;
 
-    private float timeToUpdateMouse = 0;
-    private float timeToUpdateTouch = 0;
-    private float timeToUpdateScroll = 0;
     private bool error;
 
     private void Awake()
@@ -338,19 +337,6 @@ public class GraphHandler : MonoBehaviour
         pointRects.Add(pointRectTransform);
         image.sprite = GS.PointSprite;
 
-        //EventTrigger trigger = point.AddComponent<EventTrigger>();
-        //var eventTypes = new[]
-        //{
-        //    new { Type = EventTriggerType.PointerEnter, Callback = (Action) (() => MouseTrigger(i, true)) },
-        //    new { Type = EventTriggerType.PointerExit, Callback = (Action) (() => MouseTrigger(i, false)) },
-        //    new { Type = EventTriggerType.PointerClick, Callback = (Action) (() => PointClicked(i)) }
-        //};
-        //foreach (var eventType in eventTypes)
-        //{
-        //    EventTrigger.Entry entry = new EventTrigger.Entry { eventID = eventType.Type };
-        //    entry.callback.AddListener((data) => { eventType.Callback(); });
-        //    trigger.triggers.Add(entry);
-        //}
         if (points.Count > 1)
         {
             GameObject line = new GameObject("Line");
@@ -416,23 +402,6 @@ public class GraphHandler : MonoBehaviour
             xGridImage.raycastTarget = false;
             xGridRects.Add(xGrid.GetComponent<RectTransform>());
             xGridImages.Add(xGridImage);
-            if (xGridRects.Count > 1)
-            {
-                TextMeshProUGUI xText = new GameObject("xText" + xGridRects.Count).AddComponent<TextMeshProUGUI>();
-                RectTransform textRect = xText.gameObject.GetComponent<RectTransform>();
-                textRect.SetParent(xGrid.GetComponent<RectTransform>());
-                xText.font = GS.GridTextFont;
-                xText.fontStyle = FontStyles.Bold;
-                xText.fontStyle = FontStyles.Bold;
-                xText.alignment = TextAlignmentOptions.Center;
-                xText.verticalAlignment = VerticalAlignmentOptions.Middle;
-                xText.color = GS.XAxisTextColor;
-                xText.enableAutoSizing = true;
-                textRect.sizeDelta = Vector2.one * GS.XAxisTextSize;
-                xText.raycastTarget = false;
-                xAxisTexts.Add(xText);
-                xAxisTextRects.Add(textRect);
-            }
         }
         else
         {
@@ -442,23 +411,6 @@ public class GraphHandler : MonoBehaviour
             yGridImage.raycastTarget = false;
             yGridRects.Add(yGrid.GetComponent<RectTransform>());
             yGridImages.Add(yGridImage);
-            if (yGridRects.Count > 1)
-            {
-                TextMeshProUGUI yText = new GameObject("yText" + yGridRects.Count).AddComponent<TextMeshProUGUI>();
-                RectTransform textRect = yText.gameObject.GetComponent<RectTransform>();
-                textRect.SetParent(yGrid.GetComponent<RectTransform>());
-                yText.font = GS.GridTextFont;
-                yText.fontStyle = FontStyles.Bold;
-                yText.alignment = TextAlignmentOptions.Center;
-                yText.verticalAlignment = VerticalAlignmentOptions.Middle;
-                yText.color = GS.YAxisTextColor;
-                yText.enableAutoSizing = true;
-                textRect.sizeDelta = Vector2.one * GS.YAxisTextSize;
-                yText.raycastTarget = false;
-                yAxisTexts.Add(yText);
-                yAxisTextRects.Add(textRect);
-            }
-
         }
     }
 
@@ -673,9 +625,6 @@ public class GraphHandler : MonoBehaviour
                     eventualOverlay.x = 0;
 
                 UpdateAnchoredPosition(rect, new Vector2(GridStartPoint.x + (i + eventualOverlay.x) / spacing.x * contentScale.x, center.y * contentScale.y));
-                UpdateSizeDelta(xAxisTextRects[i - 1], new Vector2(1f / spacing.x * contentScale.x, GS.XAxisTextSize));
-                UpdateAnchoredPosition(xAxisTextRects[i - 1], new Vector2(0, -center.y * contentScale.y + GS.XAxisTextOffset));
-                xAxisTexts[i - 1].text = Mathf.Floor(1f / spacing.x) > 0 ? Mathf.RoundToInt(GridStartPoint.x / contentScale.x + (i + eventualOverlay.x) / spacing.x).ToString() : (GridStartPoint.x / contentScale.x + (i + eventualOverlay.x) / spacing.x).ToString("R");
             }
         }
 
@@ -700,9 +649,6 @@ public class GraphHandler : MonoBehaviour
                     eventualOverlay.y = 0;
 
                 UpdateAnchoredPosition(rect, new Vector2(center.x * contentScale.x, GridStartPoint.y + (i + eventualOverlay.y) / spacing.y * contentScale.y));
-                UpdateSizeDelta(yAxisTextRects[i - 1], new Vector2(1f / spacing.x * contentScale.x, GS.XAxisTextSize));
-                UpdateAnchoredPosition(yAxisTextRects[i - 1], new Vector2(-center.x * contentScale.x + GS.YAxisTextOffset, 0));
-                yAxisTexts[i - 1].text = Mathf.Floor(1f / spacing.y) > 0 ? Mathf.RoundToInt(GridStartPoint.y / contentScale.y + (i + eventualOverlay.y) / spacing.y).ToString() : (GridStartPoint.y / contentScale.y + (i + eventualOverlay.y) / spacing.y).ToString("R");
             }
         }
         for (int i = requiredXGridlines; i < xGridRects.Count; i++)
@@ -723,14 +669,6 @@ public class GraphHandler : MonoBehaviour
         float closestX = Mathf.Pow(2, exponentX);
         float closestY = Mathf.Pow(2, exponentY);
         return new Vector2(closestX, closestY) * GS.GridSpacing;
-    }
-    private void SetCornerValuesInternal(Vector2 newBottomLeft, Vector2 newTopRight)
-    {
-        Vector2 newCenter = (newTopRight - newBottomLeft) / 2f + newBottomLeft;
-        targetMoveOffset = (newCenter - center) * contentScale + moveOffset;
-
-        ChangeZoomPoint(newCenter);
-        targetZoom = GS.GraphSize / GS.GraphScale / (newTopRight - newBottomLeft);
     }
 
     private int MinMaxBinarySearch(bool findLeft) //important for large numbers of points
