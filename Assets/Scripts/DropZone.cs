@@ -13,14 +13,16 @@ public class DropZone : MonoBehaviour, IDropHandler
 
         if (droppedObject.TryGetComponent(out LiveSeal liveSeal))
         {
-            _generator.AddNewCat();
-            print("Жив!");            
+            _generator.AddNewCat();        
         }
 
         if (droppedObject.TryGetComponent(out DeadSeal deadSeal))
         {
+            int deaths = PlayerPrefs.GetInt("deaths");
+            deaths += 1;
+            PlayerPrefs.SetInt("deaths", deaths);
             _generator.AddNewCat();
-            print("Мертв!");
+            
         }
     }
 }
