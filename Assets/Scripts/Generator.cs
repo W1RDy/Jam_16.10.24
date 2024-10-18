@@ -16,6 +16,8 @@ public class Generator : MonoBehaviour, IGameLoopComponent
     [SerializeField] private TextMeshProUGUI _age;
     [SerializeField] private TextMeshProUGUI _mouseCount;
     [SerializeField] private Image _image;
+    [SerializeField] private Animator _anim;
+
     private List<string> _catNames;
     private List<string> _catReasons;
     private List<string> _catNatures;
@@ -29,6 +31,8 @@ public class Generator : MonoBehaviour, IGameLoopComponent
     public event Action OnStartRegeneration;
 
     private bool _isGenerated = false;
+
+    public bool isChecked = false;
 
     public void StarLoop()
     {
@@ -49,7 +53,8 @@ public class Generator : MonoBehaviour, IGameLoopComponent
         OnStartGeneration?.Invoke();
         _isGenerated = false;
         int randomImages = Random.Range(0, _catImages.Count);
-        //_image = _catImages[randomImages];
+        _image = _catImages[randomImages];
+        _anim.SetInteger("state", 1);
         CleanCat();
     }
 

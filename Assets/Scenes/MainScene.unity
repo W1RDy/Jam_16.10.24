@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 230577957}
   - component: {fileID: 230577958}
   - component: {fileID: 230577956}
+  - component: {fileID: 230577959}
   m_Layer: 5
   m_Name: Cat
   m_TagString: Untagged
@@ -329,8 +330,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 186, y: 222}
-  m_SizeDelta: {x: 350, y: 444}
+  m_AnchoredPosition: {x: 47.658, y: 46.503}
+  m_SizeDelta: {x: 73.3159, y: 93.006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &230577956
 MonoBehaviour:
@@ -387,7 +388,28 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd9466e8098c1aa4ab0c90f2d49ecfd0, type: 3}
   - {fileID: 21300000, guid: a1c0d1d7a0290014eb79dd06f434b77a, type: 3}
   _sealPlace: {fileID: 533812511}
-  checkBool: 1
+  _anim: {fileID: 230577959}
+--- !u!95 &230577959
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230577954}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d7a9a80580e9213428870c4386cc5848, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &289118838
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +654,9 @@ MonoBehaviour:
   _age: {fileID: 2065876702}
   _mouseCount: {fileID: 1116575045}
   _image: {fileID: 230577956}
+  _anim: {fileID: 230577959}
   _chartsChecker: {fileID: 0}
+  isChecked: 0
 --- !u!4 &587387810
 Transform:
   m_ObjectHideFlags: 0
@@ -2057,7 +2081,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd9466e8098c1aa4ab0c90f2d49ecfd0, type: 3}
   - {fileID: 21300000, guid: a1c0d1d7a0290014eb79dd06f434b77a, type: 3}
   _sealPlace: {fileID: 533812511}
-  checkBool: 1
+  _anim: {fileID: 230577959}
 --- !u!1 &1681467692
 GameObject:
   m_ObjectHideFlags: 0

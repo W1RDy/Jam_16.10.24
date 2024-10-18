@@ -9,25 +9,26 @@ public class DropZone : MonoBehaviour, IDropHandler
     [SerializeField] private Generator _generator;
     [SerializeField] private Sprite[] _seals;
     [SerializeField] private Image _sealPlace;
-
-    [SerializeField] private bool checkBool = true;
+    [SerializeField] private Animator _anim;
 
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedObject = eventData.pointerDrag;
 
-        if (droppedObject.TryGetComponent(out LiveSeal liveSeal) && checkBool)
+        if (droppedObject.TryGetComponent(out LiveSeal liveSeal) && !_generator.isChecked)
         {
+            _anim.SetInteger("state", 0);
             AddSeal(0);           
-            Invoke("DeleteSeal", 5f);              
+            Invoke("DeleteSeal", 1f);              
         }
 
-        if (droppedObject.TryGetComponent(out DeadSeal deadSeal) && checkBool)
+        if (droppedObject.TryGetComponent(out DeadSeal deadSeal) && !_generator.isChecked)
         {
             int deaths = PlayerPrefs.GetInt("deaths");
             deaths += 1;
             PlayerPrefs.SetInt("deaths", deaths);
 
+            _anim.SetInteger("state", 0);
             AddSeal(1);            
             Invoke("DeleteSeal", 2f);
         }
@@ -35,7 +36,7 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     private void DeleteSeal()
     {
-        checkBool = true;
+        _generator.isChecked = true;
         _sealPlace.gameObject.SetActive(false);
         _generator.AddNewCat();
     }
@@ -44,6 +45,6 @@ public class DropZone : MonoBehaviour, IDropHandler
     {
         _sealPlace.gameObject.SetActive(true);
         _sealPlace.sprite = _seals[number];
-        checkBool = false;
+        _generator.isChecked = false;
     }
 }
