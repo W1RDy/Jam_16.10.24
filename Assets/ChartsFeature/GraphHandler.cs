@@ -51,6 +51,8 @@ public class GraphHandler : MonoBehaviour
 
     private void RecreateGraph(Wave wave)
     {
+        Debug.Log("RecreateGraph");
+
         for (var i = 0; i < wave.Points.Length; i++)
         {
             ChangePointInternal(i, wave.Points[i], wave.Points.Length);
