@@ -99,6 +99,11 @@ public class Generator : MonoBehaviour, IGameLoopComponent
         return (double)Random.Range(_chartsParamsSO.MinFrequency, _chartsParamsSO.MaxFrequency);
     }
 
+    public bool GenerateLifeState()
+    {
+        return Random.Range(0, 2) == 0 ? true : false;
+    }
+
     private void Subscribe()
     {
         _chartsChecker.OnChartsEquals += GenerateCat;
