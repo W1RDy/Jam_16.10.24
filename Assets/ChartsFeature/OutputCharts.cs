@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class OutputCharts : MonoBehaviour
 {
-    [SerializeField] private Charts[] _charts;
-    [SerializeField] private GraphHandler _graphHandler;
+    [SerializeField] protected Charts[] _charts;
+    [SerializeField] protected GraphHandler _graphHandler;
 
-    private ChartsView _view;
+    protected ChartsView _view;
 
     private void Awake()
     {
@@ -14,13 +14,13 @@ public class OutputCharts : MonoBehaviour
         Subscribe();      
     }
 
-    private void UpdateChart()
+    protected virtual void UpdateChart()
     {
         var wave = GenerateSumWave(_charts[0].Wave, _charts[1].Wave);
         if (wave != null) _view.GenerateWaveDiagram(wave);
     }
 
-    private Wave GenerateSumWave(Wave wave1, Wave wave2)
+    protected Wave GenerateSumWave(Wave wave1, Wave wave2)
     {
         int length = 0;
 
@@ -39,7 +39,7 @@ public class OutputCharts : MonoBehaviour
         return new Wave(points); 
     }
 
-    private void Subscribe()
+    protected virtual void Subscribe()
     {
         foreach (var chart in _charts)
         {
@@ -47,7 +47,7 @@ public class OutputCharts : MonoBehaviour
         }
     }
 
-    private void Unsubscribe()
+    protected virtual void Unsubscribe()
     {
         foreach (var chart in _charts)
         {

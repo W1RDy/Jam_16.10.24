@@ -16,6 +16,8 @@ public class Charts : MonoBehaviour
 
     [SerializeField] private ChangeAmplitudeButton[] _buttons;
 
+    [SerializeField] private Generator _generator;
+
     public Wave Wave { get; private set; }
 
     private ChartsView _view;
@@ -23,23 +25,12 @@ public class Charts : MonoBehaviour
     private bool _isDrawed;
 
     public event Action OnChartUpdated;
+    public event Action<Wave> OnConstChartUpdated;
 
     private void Awake()
     {
         _view = new ChartsView(_graphHandler);
         Subscribe();
-    }
-
-    public void Update()
-    {
-        if (_graphHandler.IsPrepared)
-        {
-            if (!_isDrawed)
-            {
-                UpdateChart(_frequency, _amplitude, _length);
-                _isDrawed = true;
-            }
-        }
     }
 
     public void UpdateChart(double frequency, double amplitude, int length, int phase = 0)
@@ -51,7 +42,7 @@ public class Charts : MonoBehaviour
 
         Wave = GenerateWave();
 
-        UpdateChart();
+        UpdateChartView();
     }
 
     private Wave GenerateWave()
@@ -59,7 +50,31 @@ public class Charts : MonoBehaviour
         return new Wave(_frequency, _amplitude, _length, _phase);
     }
 
-    private void UpdateChart()
+    private void GenerateAllCharts()
+    {
+        GenerateConstChartValues();
+        GenerateChart();
+    }
+
+    private void GenerateConstChartValues()
+    {
+        _amplitude = _generator.GenerateRandomAmplitude();
+        _frequency = _generator.GenerateRandomFrequency();
+
+        var wave = GenerateWave();
+
+        OnConstChartUpdated?.Invoke(wave);
+    }
+
+    private void GenerateChart()
+    {
+        _amplitude = _generator.GenerateRandomAmplitude();
+
+        Wave = GenerateWave();
+        UpdateChartView();
+    }
+
+    private void UpdateChartView()
     {
         _view.GenerateWaveDiagram(Wave);
         OnChartUpdated?.Invoke();
@@ -73,6 +88,8 @@ public class Charts : MonoBehaviour
 
     private void Subscribe()
     {
+        _generator.OnStartGeneration += GenerateAllCharts;
+
         foreach (var button in _buttons)
         {
             button.OnChangeAmplitude += ChangeAmplitude;
@@ -81,6 +98,8 @@ public class Charts : MonoBehaviour
 
     private void Unsubscribe()
     {
+        _generator.OnStartGeneration -= GenerateAllCharts;
+
         foreach (var button in _buttons)
         {
             button.OnChangeAmplitude -= ChangeAmplitude;

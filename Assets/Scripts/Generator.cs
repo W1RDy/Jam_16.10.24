@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,7 +6,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Generator : MonoBehaviour
+using Random = UnityEngine.Random;
+
+public class Generator : MonoBehaviour, IGameLoopComponent
 {
     [SerializeField] private TextMeshProUGUI _name;
     [SerializeField] private TextMeshProUGUI _reason;
@@ -18,20 +21,26 @@ public class Generator : MonoBehaviour
     private List<string> _catNatures;
     private List<Image> _catImages;
 
-    // Start is called before the first frame update
-    void Start()
+    private ChartsParamsSO _chartsParamsSO;
+
+    public event Action OnStartGeneration;
+
+    public void StarLoop()
     {
         var allParameters = Resources.LoadAll<CatParameter>("");
-        _catNames =  allParameters[0].names;
+        _catNames = allParameters[0].names;
         _catReasons = allParameters[0].reasons;
         _catNatures = allParameters[0].natures;
         _catImages = allParameters[0].images;
+
+        _chartsParamsSO = allParameters[0].ChartsParams;
 
         AddNewCat();
     }
 
     public void AddNewCat()
     {
+        OnStartGeneration?.Invoke();
         int randomImages = Random.Range(0, _catImages.Count);
         //_image = _catImages[randomImages];
         CleanCat();
@@ -62,12 +71,14 @@ public class Generator : MonoBehaviour
         _mouseCount.text = empty;
     }
 
-    private void Update()
+    public double GenerateRandomAmplitude()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GenerateCat();
-        }
+        var randomAmplitude = (double)(Random.Range(_chartsParamsSO.MinAmplitude, _chartsParamsSO.MaxAmplitude - 1) + Random.Range(0, 6) * 0.2f);
+        return randomAmplitude;
     }
 
+    public double GenerateRandomFrequency()
+    {
+        return (double)Random.Range(_chartsParamsSO.MinFrequency, _chartsParamsSO.MaxFrequency);
+    }
 }
