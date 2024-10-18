@@ -16,8 +16,6 @@ public class ChartsChecker : MonoBehaviour
 
     private void CheckGeneratedCharts()
     {
-        Debug.Log("CheckGeneratedCharts");
-
         if (_charts[0].Wave == null || _charts[1].Wave == null) return;
 
         if (!CheckMoreEqualsParamsWithOffset(_charts[0].Wave.Points, _charts[1].Wave.Points, 0.4f))
@@ -57,10 +55,8 @@ public class ChartsChecker : MonoBehaviour
     {
         if (params1.Length != params2.Length) return false;
 
-        Debug.LogWarning("Проверка графов");
         for (int i = 0; i < params1.Length; ++i)
         {
-            Debug.Log($"Ожидалось ({params1[i].x}, {params1[i].y}), получено ({params2[i].x}, {params2[i].y})");
             if (!CheckEqualsParamsWithOffset(params1[i], params2[i], offset))
             {
                 return false;
