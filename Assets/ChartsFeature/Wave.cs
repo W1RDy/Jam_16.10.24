@@ -28,6 +28,8 @@ public class Wave
         Points = points;
         Amplitudes = amplitudes;
         Frequencies = frequencies;
+
+        FindMinMaxValues();
     }
 
     private void GenerateWave(double frequency, double amplitude, int length, int phase = 0)
@@ -44,6 +46,20 @@ public class Wave
         {
             var point = new Vector2((float)x[i], (float)y[i]);
             Points[i] = point;
+
+            if (point.y < MinYValue) { MinYValue = point.y; }
+            if (point.y > MaxYValue) { MaxYValue = point.y; }
+        }
+    }
+
+    private void FindMinMaxValues()
+    {
+        MaxXValue = Points[Points.Length - 1].x;
+        MinXValue = Points[0].x;
+
+        for (int i = 0; i < Points.Length; i++)
+        {
+            var point = Points[i];
 
             if (point.y < MinYValue) { MinYValue = point.y; }
             if (point.y > MaxYValue) { MaxYValue = point.y; }

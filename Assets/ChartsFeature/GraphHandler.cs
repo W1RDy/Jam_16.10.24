@@ -14,6 +14,9 @@ public class GraphHandler : MonoBehaviour
 
     private bool _isGenerated;
 
+    [SerializeField] private Vector2 _defaultOffset = new Vector2(-20, -80);
+    [SerializeField] private Vector2 _zoomRange = new Vector2(0.4f, 0.65f);
+
     public void CreatePoint(Vector2 newValue)
     {
         CreatePointInternal(newValue);
@@ -43,10 +46,40 @@ public class GraphHandler : MonoBehaviour
             CreatePoint(point);
         }
 
-        var middlePointOffset = new Vector2((wave.MaxXValue - wave.MinXValue) / 2, (wave.MaxYValue - wave.MaxYValue) / 2);
+        UpdateSize(wave);
+    }
 
-        InitZoomAndOffset(new Vector2(0.7f, 0.7f), _defaultOffset + middlePointOffset);
+    public void UpdateSize(Wave wave)
+    {
+        ApplyOptimalSizes(wave);
         UpdateGraph();
+    }
+
+    private void ApplyOptimalSizes(Wave wave)
+    {
+        var chartWidth = wave.MaxXValue - wave.MinXValue;
+        var chartHeight = wave.MaxYValue - wave.MinYValue;
+
+        float zoomNewValue = CalculateOptimalZoom(chartWidth, chartHeight);
+
+        var newOffset = new Vector2(_defaultOffset.x + (chartWidth * zoomNewValue), _defaultOffset.y + (chartHeight * zoomNewValue));
+
+        var zoom = GS.GraphSize / GS.GraphScale / (chartHeight * 1.2f);
+        targetZoom = new Vector2(Math.Clamp(zoom.x, _zoomRange.x, _zoomRange.y), Math.Clamp(zoom.y, _zoomRange.x, _zoomRange.y));
+
+        InitZoomAndOffset(targetZoom, _defaultOffset);
+    }
+
+    private float CalculateOptimalZoom(double chartWidth, double chartHeight)
+    {
+        double optimalZoomFactor = 0.7f;
+
+        double widthAdjustment = Math.Max(1, chartWidth / 3);
+        double heightAdjustment = Math.Max(1, chartHeight / 3);
+
+        optimalZoomFactor /= Math.Min(widthAdjustment, heightAdjustment);
+
+        return (float)optimalZoomFactor;
     }
 
     private void RecreateGraph(Wave wave)
@@ -55,8 +88,9 @@ public class GraphHandler : MonoBehaviour
         {
             ChangePointInternal(i, wave.Points[i], wave.Points.Length);
         }
+
         SortIndices();
-        UpdateGraph();
+        UpdateSize(wave);
     }
 
     private void ChangePointInternal(int index, Vector2 newValue, int waveLength)
@@ -69,12 +103,6 @@ public class GraphHandler : MonoBehaviour
     {
         zoom = targetZoom;
         moveOffset = targetMoveOffset;
-    }
-
-    private void ChangeZoomPoint(Vector2 newZoomPoint)
-    {
-        absoluteZoomPoint = (newZoomPoint - zoomPoint) * contentScale + absoluteZoomPoint;
-        zoomPoint = newZoomPoint;
     }
 
     private void Start()
@@ -162,8 +190,6 @@ public class GraphHandler : MonoBehaviour
     public Vector2 BottomLeft { get { return bottomLeft; } }
     public Vector2 TopRight { get { return topRight; } }
     public Vector2 Center { get { return center; } }
-
-    private Vector2 _defaultOffset = new Vector2(-50, -100);
 
     public bool IsPrepared { get; private set; }
     public enum MouseActionType

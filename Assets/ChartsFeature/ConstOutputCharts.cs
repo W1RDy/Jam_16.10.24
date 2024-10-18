@@ -27,6 +27,10 @@ public class ConstOutputCharts : OutputCharts
         _waves.Clear();
     }
 
+    protected override void UpdateSize()
+    {
+    }
+
     protected override void Subscribe()
     {
         foreach (var chart in _charts)

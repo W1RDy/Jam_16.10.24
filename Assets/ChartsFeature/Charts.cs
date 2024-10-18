@@ -28,6 +28,8 @@ public class Charts : MonoBehaviour
     public event Action<Wave> OnConstChartUpdated;
     public event Action OnChartGenerated;
 
+    [SerializeField] private bool _isCanRegenerate;
+
     private void Awake()
     {
         _view = new ChartsView(_graphHandler);
@@ -37,7 +39,7 @@ public class Charts : MonoBehaviour
     public void UpdateChart(double frequency, double amplitude, int length, int phase = 0)
     {
         _frequency = frequency;
-        _amplitude = amplitude;
+        _amplitude = Math.Clamp(amplitude, -3, 3);
         _length = length;
         _phase = phase;
 
@@ -91,7 +93,8 @@ public class Charts : MonoBehaviour
     private void Subscribe()
     {
         _generator.OnStartGeneration += GenerateAllCharts;
-        _generator.OnStartRegeneration += GenerateChart;
+        
+        if (_isCanRegenerate) _generator.OnStartRegeneration += GenerateChart;
 
         foreach (var button in _buttons)
         {
@@ -102,7 +105,8 @@ public class Charts : MonoBehaviour
     private void Unsubscribe()
     {
         _generator.OnStartGeneration -= GenerateAllCharts;
-        _generator.OnStartRegeneration -= GenerateChart;
+
+        if (_isCanRegenerate) _generator.OnStartRegeneration -= GenerateChart;
 
         foreach (var button in _buttons)
         {
