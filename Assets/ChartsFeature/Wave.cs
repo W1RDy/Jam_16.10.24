@@ -6,6 +6,9 @@ public class Wave
 {
     public Vector2[] Points { get; private set; }
 
+    public double[] Amplitudes;
+    public double[] Frequencies;
+
     public float MinYValue { get; private set; }
     public float MaxYValue { get; private set; }
 
@@ -15,11 +18,16 @@ public class Wave
     public Wave(double frequency, double amplitude, int length, int phase = 0)
     {
         GenerateWave(frequency, amplitude, length, phase);
+
+        Amplitudes = new double[1] { amplitude };
+        Frequencies = new double[1] { frequency };
     }
 
-    public Wave(Vector2[] points)
+    public Wave(Vector2[] points, double[] amplitudes, double[] frequencies)
     {
         Points = points;
+        Amplitudes = amplitudes;
+        Frequencies = frequencies;
     }
 
     private void GenerateWave(double frequency, double amplitude, int length, int phase = 0)
@@ -40,10 +48,5 @@ public class Wave
             if (point.y < MinYValue) { MinYValue = point.y; }
             if (point.y > MaxYValue) { MaxYValue = point.y; }
         }
-    }
-
-    public void RegenerateWave(double frequency, double amplitude, int length, int phase = 0)
-    {
-        GenerateWave(frequency, amplitude, length, phase);
     }
 }
