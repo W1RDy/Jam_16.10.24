@@ -5,6 +5,8 @@ public class ChartsChecker : MonoBehaviour
 {
     [SerializeField] private OutputCharts[] _charts;
 
+    [SerializeField] private Generator _generator; 
+
     public event Action OnChartsEquals;
 
     private void Awake()
@@ -12,7 +14,19 @@ public class ChartsChecker : MonoBehaviour
         Subscribe();
     }
 
-    private void CheckCharts()
+    private void CheckGeneratedCharts()
+    {
+        Debug.Log("CheckGeneratedCharts");
+
+        if (_charts[0].Wave == null || _charts[1].Wave == null) return;
+
+        if (!CheckMoreEqualsParamsWithOffset(_charts[0].Wave.Points, _charts[1].Wave.Points, 0.4f))
+        {
+            _generator.RegenerateGraphs();
+        }
+    }
+
+    private void CheckUpdatedCharts()
     {
         if (_charts[0].Wave == null || _charts[1].Wave == null) return;
 
@@ -20,6 +34,23 @@ public class ChartsChecker : MonoBehaviour
         {
             ChartsFinished();
         }
+    }
+
+    private bool CheckMoreEqualsParamsWithOffset(Vector2[] params1,  Vector2[] params2, double offset)
+    {
+        if (params1.Length != params2.Length) return false;
+
+        int equalsCount = 0;
+
+        for (int i = 0; i < params1.Length; ++i)
+        {
+            if (!CheckEqualsParamsWithOffset(params1[i], params2[i], offset))
+            {
+                equalsCount++;
+            }
+        }
+
+        return equalsCount > params1.Length / 2;
     }
 
     private bool CheckEqualsParamsWithOffset(Vector2[] params1, Vector2[] params2, double offset)
@@ -53,7 +84,8 @@ public class ChartsChecker : MonoBehaviour
     {
         foreach (var chart in _charts)
         {
-            chart.OnChartUpdated += CheckCharts;
+            chart.OnChartUpdated += CheckUpdatedCharts;
+            chart.OnChartGenerated += CheckGeneratedCharts;
         }
     }
 
@@ -61,7 +93,8 @@ public class ChartsChecker : MonoBehaviour
     {
         foreach (var chart in _charts)
         {
-            chart.OnChartUpdated -= CheckCharts;
+            chart.OnChartUpdated -= CheckUpdatedCharts;
+            chart.OnChartGenerated -= CheckGeneratedCharts;
         }
     }
 

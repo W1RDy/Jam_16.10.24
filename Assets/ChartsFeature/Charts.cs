@@ -26,6 +26,7 @@ public class Charts : MonoBehaviour
 
     public event Action OnChartUpdated;
     public event Action<Wave> OnConstChartUpdated;
+    public event Action OnChartGenerated;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class Charts : MonoBehaviour
         Wave = GenerateWave();
 
         UpdateChartView();
+        OnChartUpdated?.Invoke();
     }
 
     private Wave GenerateWave()
@@ -72,12 +74,12 @@ public class Charts : MonoBehaviour
 
         Wave = GenerateWave();
         UpdateChartView();
+        OnChartGenerated?.Invoke();
     }
 
     private void UpdateChartView()
     {
         _view.GenerateWaveDiagram(Wave);
-        OnChartUpdated?.Invoke();
     }
 
     private void ChangeAmplitude(float amplitude)
@@ -89,6 +91,7 @@ public class Charts : MonoBehaviour
     private void Subscribe()
     {
         _generator.OnStartGeneration += GenerateAllCharts;
+        _generator.OnStartRegeneration += GenerateChart;
 
         foreach (var button in _buttons)
         {
@@ -99,6 +102,7 @@ public class Charts : MonoBehaviour
     private void Unsubscribe()
     {
         _generator.OnStartGeneration -= GenerateAllCharts;
+        _generator.OnStartRegeneration -= GenerateChart;
 
         foreach (var button in _buttons)
         {

@@ -7,6 +7,7 @@ public class OutputCharts : MonoBehaviour
     [SerializeField] protected GraphHandler _graphHandler;
 
     public event Action OnChartUpdated;
+    public event Action OnChartGenerated;
 
     public Wave Wave { get; protected set; }
 
@@ -18,19 +19,41 @@ public class OutputCharts : MonoBehaviour
         Subscribe();      
     }
 
-    protected virtual void UpdateChart()
+    private void GenerateChart()
+    {
+        UpdateWaveAndGenerateChart();
+        if (Wave != null)
+        {
+            CallGenerateEvent();
+        }
+    }
+
+    private void UpdateChart()
+    {
+        UpdateWaveAndGenerateChart();
+        if (Wave != null)
+        {
+            CallUpdateEvent();
+        }
+    }
+
+    protected virtual void UpdateWaveAndGenerateChart()
     {
         Wave = GenerateSumWave(_charts[0].Wave, _charts[1].Wave);
         if (Wave != null)
         {
             _view.GenerateWaveDiagram(Wave);
-            CallEvent();
         }
     }
 
-    protected void CallEvent()
+    private void CallUpdateEvent()
     {
         OnChartUpdated?.Invoke();
+    }
+    
+    private void CallGenerateEvent()
+    {
+        OnChartGenerated?.Invoke();
     }
 
     protected Wave GenerateSumWave(Wave wave1, Wave wave2)
@@ -56,6 +79,7 @@ public class OutputCharts : MonoBehaviour
         foreach (var chart in _charts)
         {
             chart.OnChartUpdated += UpdateChart;
+            chart.OnChartGenerated += GenerateChart;
         }
     }
 
@@ -64,6 +88,7 @@ public class OutputCharts : MonoBehaviour
         foreach (var chart in _charts)
         {
             chart.OnChartUpdated -= UpdateChart;
+            chart.OnChartGenerated -= GenerateChart;
         }
     }
 
