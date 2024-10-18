@@ -10,11 +10,11 @@ public class ConstOutputCharts : OutputCharts
 
         if (_waves.Count == 2)
         {
-            UpdateChart();
+            UpdateWaveAndGenerateChart();
         }
     }
 
-    protected override void UpdateChart()
+    protected override void UpdateWaveAndGenerateChart()
     {
         if (_waves[0] == null || _waves[1] == null) return;
 
@@ -22,7 +22,6 @@ public class ConstOutputCharts : OutputCharts
         if (Wave != null)
         {
             _view.GenerateWaveDiagram(Wave);
-            CallEvent();
         }
 
         _waves.Clear();

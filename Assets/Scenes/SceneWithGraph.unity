@@ -2276,6 +2276,7 @@ MonoBehaviour:
   _charts:
   - {fileID: 1655746574}
   - {fileID: 424874092}
+  _generator: {fileID: 587387809}
 --- !u!4 &1155392334
 Transform:
   m_ObjectHideFlags: 0

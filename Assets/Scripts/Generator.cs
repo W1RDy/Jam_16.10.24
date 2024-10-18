@@ -26,6 +26,7 @@ public class Generator : MonoBehaviour, IGameLoopComponent
     [SerializeField] private ChartsChecker _chartsChecker;
 
     public event Action OnStartGeneration;
+    public event Action OnStartRegeneration;
 
     private bool _isGenerated = false;
 
@@ -80,6 +81,12 @@ public class Generator : MonoBehaviour, IGameLoopComponent
         _nature.text = empty;
         _age.text = empty;
         _mouseCount.text = empty;
+    }
+
+    public void RegenerateGraphs()
+    {
+        Debug.LogWarning("Regenerate");
+        OnStartRegeneration?.Invoke();
     }
 
     public double GenerateRandomAmplitude()
