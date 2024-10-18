@@ -24,9 +24,9 @@ public class DropZone : MonoBehaviour, IDropHandler
 
         if (droppedObject.TryGetComponent(out DeadSeal deadSeal) && !_generator.isChecked)
         {
-            int deaths = PlayerPrefs.GetInt("deaths");
+            int deaths = SaveSystem.Instance.SaveData.Deaths;
             deaths += 1;
-            PlayerPrefs.SetInt("deaths", deaths);
+            SaveSystem.Instance.SaveData.Deaths = deaths;
 
             _anim.SetInteger("state", 0);
             AddSeal(1);            
