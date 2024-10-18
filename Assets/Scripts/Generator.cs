@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,26 +35,40 @@ public class Generator : MonoBehaviour, IGameLoopComponent
 
         _chartsParamsSO = allParameters[0].ChartsParams;
 
-        GenerateCat();
+        AddNewCat();
+    }
+
+    public void AddNewCat()
+    {
+        OnStartGeneration?.Invoke();
+        int randomImages = Random.Range(0, _catImages.Count);
+        //_image = _catImages[randomImages];
+        CleanCat();
     }
 
     public void GenerateCat()
     {
-        OnStartGeneration?.Invoke();
-
         int randomNames = Random.Range(0, _catNames.Count);
         int randomReasons = Random.Range(0, _catReasons.Count);
-        int randomNatures = Random.Range(0, _catNatures.Count);
-        int randomImages = Random.Range (0, _catImages.Count);
+        int randomNatures = Random.Range(0, _catNatures.Count);        
         int randomAge = Random.Range(0, 20);
         int randomMouseCount = Random.Range(0, 5000);
 
         _name.text = _catNames[randomNames];
         _reason.text = _catReasons[randomReasons];
-        _nature.text = _catNatures[randomNatures];
-        //_image = _catImages[randomImages];
+        _nature.text = _catNatures[randomNatures];        
         _age.text = randomAge.ToString();
         _mouseCount.text = randomMouseCount.ToString();
+    }
+
+    private void CleanCat()
+    {
+        string empty = "...";
+        _name.text = empty;
+        _reason.text = empty;
+        _nature.text = empty;
+        _age.text = empty;
+        _mouseCount.text = empty;
     }
 
     public double GenerateRandomAmplitude()
