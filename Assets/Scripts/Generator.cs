@@ -23,7 +23,11 @@ public class Generator : MonoBehaviour, IGameLoopComponent
 
     private ChartsParamsSO _chartsParamsSO;
 
+    [SerializeField] private ChartsChecker _chartsChecker;
+
     public event Action OnStartGeneration;
+
+    private bool _isGenerated = false;
 
     public void StarLoop()
     {
@@ -34,6 +38,7 @@ public class Generator : MonoBehaviour, IGameLoopComponent
         _catImages = allParameters[0].images;
 
         _chartsParamsSO = allParameters[0].ChartsParams;
+        Subscribe();
 
         AddNewCat();
     }
@@ -41,6 +46,7 @@ public class Generator : MonoBehaviour, IGameLoopComponent
     public void AddNewCat()
     {
         OnStartGeneration?.Invoke();
+        _isGenerated = false;
         int randomImages = Random.Range(0, _catImages.Count);
         //_image = _catImages[randomImages];
         CleanCat();
@@ -48,17 +54,22 @@ public class Generator : MonoBehaviour, IGameLoopComponent
 
     public void GenerateCat()
     {
-        int randomNames = Random.Range(0, _catNames.Count);
-        int randomReasons = Random.Range(0, _catReasons.Count);
-        int randomNatures = Random.Range(0, _catNatures.Count);        
-        int randomAge = Random.Range(0, 20);
-        int randomMouseCount = Random.Range(0, 5000);
+        if (!_isGenerated)
+        {
+            int randomNames = Random.Range(0, _catNames.Count);
+            int randomReasons = Random.Range(0, _catReasons.Count);
+            int randomNatures = Random.Range(0, _catNatures.Count);
+            int randomAge = Random.Range(0, 20);
+            int randomMouseCount = Random.Range(0, 5000);
 
-        _name.text = _catNames[randomNames];
-        _reason.text = _catReasons[randomReasons];
-        _nature.text = _catNatures[randomNatures];        
-        _age.text = randomAge.ToString();
-        _mouseCount.text = randomMouseCount.ToString();
+            _name.text = _catNames[randomNames];
+            _reason.text = _catReasons[randomReasons];
+            _nature.text = _catNatures[randomNatures];
+            _age.text = randomAge.ToString();
+            _mouseCount.text = randomMouseCount.ToString();
+
+            _isGenerated = true;
+        }
     }
 
     private void CleanCat()
@@ -80,5 +91,20 @@ public class Generator : MonoBehaviour, IGameLoopComponent
     public double GenerateRandomFrequency()
     {
         return (double)Random.Range(_chartsParamsSO.MinFrequency, _chartsParamsSO.MaxFrequency);
+    }
+
+    private void Subscribe()
+    {
+        _chartsChecker.OnChartsEquals += GenerateCat;
+    }
+
+    private void Unsubscribe()
+    {
+        _chartsChecker.OnChartsEquals -= GenerateCat;
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
     }
 }

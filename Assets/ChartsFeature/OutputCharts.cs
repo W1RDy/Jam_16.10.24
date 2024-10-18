@@ -6,6 +6,10 @@ public class OutputCharts : MonoBehaviour
     [SerializeField] protected Charts[] _charts;
     [SerializeField] protected GraphHandler _graphHandler;
 
+    public event Action OnChartUpdated;
+
+    public Wave Wave { get; protected set; }
+
     protected ChartsView _view;
 
     private void Awake()
@@ -16,8 +20,17 @@ public class OutputCharts : MonoBehaviour
 
     protected virtual void UpdateChart()
     {
-        var wave = GenerateSumWave(_charts[0].Wave, _charts[1].Wave);
-        if (wave != null) _view.GenerateWaveDiagram(wave);
+        Wave = GenerateSumWave(_charts[0].Wave, _charts[1].Wave);
+        if (Wave != null)
+        {
+            _view.GenerateWaveDiagram(Wave);
+            CallEvent();
+        }
+    }
+
+    protected void CallEvent()
+    {
+        OnChartUpdated?.Invoke();
     }
 
     protected Wave GenerateSumWave(Wave wave1, Wave wave2)
@@ -33,10 +46,9 @@ public class OutputCharts : MonoBehaviour
         for (int i = 0; i < length; ++i)
         {
             points[i] = wave1.Points[i] + wave2.Points[i];
-            Debug.Log(points[i]);
         }
 
-        return new Wave(points); 
+        return new Wave(points, new double[2] { wave1.Amplitudes[0], wave2.Amplitudes[0] }, new double[2] { wave1.Frequencies[0], wave2.Frequencies[0] }); 
     }
 
     protected virtual void Subscribe()

@@ -8,15 +8,22 @@ public class ConstOutputCharts : OutputCharts
     {
         _waves.Add(wave);
 
-        if (_waves.Count == 2) UpdateChart();
+        if (_waves.Count == 2)
+        {
+            UpdateChart();
+        }
     }
 
     protected override void UpdateChart()
     {
         if (_waves[0] == null || _waves[1] == null) return;
 
-        var wave = GenerateSumWave(_waves[0], _waves[1]);
-        if (wave != null) _view.GenerateWaveDiagram(wave);
+        Wave = GenerateSumWave(_waves[0], _waves[1]);
+        if (Wave != null)
+        {
+            _view.GenerateWaveDiagram(Wave);
+            CallEvent();
+        }
 
         _waves.Clear();
     }
