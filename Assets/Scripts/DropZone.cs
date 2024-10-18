@@ -5,17 +5,21 @@ using UnityEngine.EventSystems;
 
 public class DropZone : MonoBehaviour, IDropHandler
 {
+    [SerializeField] Generator _generator;
+
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedObject = eventData.pointerDrag;
 
         if (droppedObject.TryGetComponent(out LiveSeal liveSeal))
         {
+            _generator.GenerateCat();
             print("Жив!");
         }
 
         if (droppedObject.TryGetComponent(out DeadSeal deadSeal))
         {
+            _generator.GenerateCat();
             print("Мертв!");
         }
     }
