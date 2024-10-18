@@ -85,7 +85,6 @@ public class Generator : MonoBehaviour, IGameLoopComponent
 
     public void RegenerateGraphs()
     {
-        Debug.LogWarning("Regenerate");
         OnStartRegeneration?.Invoke();
     }
 

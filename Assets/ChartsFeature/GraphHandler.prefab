@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5595a5dcb8ae14a96b30730926cdd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultOffset: {x: -20, y: -80}
   updateGraph: 0
   canvas: {fileID: 0}
   activePointIndex: -1
@@ -99,7 +100,7 @@ MonoBehaviour:
   fixedPointOutlineColor: {r: 0, g: 0.8, b: 1, a: 0}
   GridTextFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   gridSpacing: {x: 1, y: 1}
-  xAxisWidth: 3
+  xAxisWidth: 2
   xAxisColor: {r: 0, g: 0.8, b: 1, a: 0.6}
   xAxisTextColor: {r: 0, g: 0.8, b: 1, a: 1}
   xAxisTextSize: 10

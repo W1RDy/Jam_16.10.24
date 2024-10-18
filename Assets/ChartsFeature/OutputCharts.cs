@@ -13,6 +13,8 @@ public class OutputCharts : MonoBehaviour
 
     protected ChartsView _view;
 
+    [SerializeField] protected GraphHandler _constGraphHandler;
+
     private void Awake()
     {
         _view = new ChartsView(_graphHandler);
@@ -34,7 +36,14 @@ public class OutputCharts : MonoBehaviour
         if (Wave != null)
         {
             CallUpdateEvent();
+            UpdateSize();
         }
+    }
+
+    protected virtual void UpdateSize()
+    {
+        _graphHandler.UpdateSize(Wave);
+        _constGraphHandler.UpdateSize(Wave);
     }
 
     protected virtual void UpdateWaveAndGenerateChart()
@@ -46,7 +55,7 @@ public class OutputCharts : MonoBehaviour
         }
     }
 
-    private void CallUpdateEvent()
+    protected void CallUpdateEvent()
     {
         OnChartUpdated?.Invoke();
     }
