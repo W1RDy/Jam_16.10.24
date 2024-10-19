@@ -43,12 +43,12 @@ public class CanvasManager : MonoBehaviour
 
     public void StartGame()
     {
+        SaveSystem.Instance.ResetSavings();
+
         int count = _nameLabel.text.Count();
         if (count > 1)
         {
-            PlayerPrefs.SetString("name", _nameLabel.text.ToString());
-            PlayerPrefs.SetInt("deaths", 0);
-            PlayerPrefs.Save();
+            SaveSystem.Instance.SaveData.Name = _nameLabel.text.ToString();
             LoadGame();
         }
         if (count <= 1)
@@ -84,8 +84,9 @@ public class CanvasManager : MonoBehaviour
 
     public void LoadGame()
     {
-        if (PlayerPrefs.HasKey("name"))
+        if (SaveSystem.Instance.SaveData.Name != "")
         {
+            SaveSystem.Instance.SaveData.IsHaveGame = true;
             SceneManager.LoadScene(1);
         }
         else
