@@ -32,6 +32,8 @@ public class Lamp : MonoBehaviour
             var lifeState = _generator.GenerateLifeState();
             if (lifeState) TurnOnPositiveLight();
             else TurnOnNegativeLight();
+
+            AudioManager.Instance.PlaySound("lamp");
         }
     }
 

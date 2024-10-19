@@ -24,6 +24,9 @@ public class DropZone : MonoBehaviour, IDropHandler
             Invoke("DeleteSeal", 1f);
 
             _coinsCounter.AddCoins(1);
+
+            AudioManager.Instance.PlaySound("appear");
+            AudioManager.Instance.PlaySound("stamp");
         }
 
         if (droppedObject.TryGetComponent(out DeadSeal deadSeal) && !_generator.isChecked)
@@ -37,6 +40,9 @@ public class DropZone : MonoBehaviour, IDropHandler
             Invoke("DeleteSeal", 1f);
 
             _coinsCounter.AddCoins(1);
+
+            AudioManager.Instance.PlaySound("appear");
+            AudioManager.Instance.PlaySound("stamp");
         }
     }
 

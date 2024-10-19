@@ -56,6 +56,8 @@ public class Generator : MonoBehaviour, IGameLoopComponent
         _image.sprite = _catImages[randomImages];
         _anim.Play("arrival");
         CleanCat();
+
+        AudioManager.Instance.PlaySound("appearances");
     }
 
     public void GenerateCat()

@@ -503,7 +503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &230931295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,7 +1015,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioData: {fileID: 11400000, guid: 63ca5e2401d8881499477e3955e7639e, type: 2}
-  _audioMixerGroup: {fileID: 24300002, guid: 6165b286bd9fb824f98dfb3554a2a749, type: 2}
 --- !u!82 &700849404
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2011,6 +2010,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5487423669958801995, guid: b5e2be3cb21a5d949bf7e3e89c76bf7b, type: 3}
+      propertyPath: _audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 6165b286bd9fb824f98dfb3554a2a749, type: 2}
     - target: {fileID: 5799020489906022435, guid: b5e2be3cb21a5d949bf7e3e89c76bf7b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
