@@ -18,7 +18,7 @@ public class ChartsChecker : MonoBehaviour
     {
         if (_charts[0].Wave == null || _charts[1].Wave == null) return;
 
-        if (!CheckMoreEqualsParamsWithOffset(_charts[0].Wave.Points, _charts[1].Wave.Points, 0.6f))
+        if (CheckMoreEqualsParamsWithOffset(_charts[0].Wave.Points, _charts[1].Wave.Points, 0.6f))
         {
             _generator.RegenerateGraphs();
         }
@@ -42,7 +42,7 @@ public class ChartsChecker : MonoBehaviour
 
         for (int i = 0; i < params1.Length; ++i)
         {
-            if (!CheckEqualsParamsWithOffset(params1[i], params2[i], offset))
+            if (CheckEqualsParamsWithOffset(params1[i], params2[i], offset))
             {
                 equalsCount++;
             }
