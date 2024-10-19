@@ -33,7 +33,7 @@ public class CoinsCounter : MonoBehaviour
 
     private void UpdateText(int coins)
     {
-        _text.text = "Монетки: " + coins.ToString();
+        _text.text = coins.ToString();
     }
 
     public int GetCurrentCoins()
