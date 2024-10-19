@@ -54,7 +54,7 @@ public class Generator : MonoBehaviour, IGameLoopComponent
         _isGenerated = false;
         int randomImages = Random.Range(0, _catImages.Count);
         _image.sprite = _catImages[randomImages];
-        _anim.SetInteger("state", 1);
+        _anim.Play("arrival");
         CleanCat();
     }
 

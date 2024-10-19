@@ -17,7 +17,7 @@ public class DropZone : MonoBehaviour, IDropHandler
 
         if (droppedObject.TryGetComponent(out LiveSeal liveSeal) && !_generator.isChecked)
         {
-            _anim.SetInteger("state", 0);
+            _anim.Play("leave");
             AddSeal(0);           
             Invoke("DeleteSeal", 1f);              
         }
@@ -28,9 +28,9 @@ public class DropZone : MonoBehaviour, IDropHandler
             deaths += 1;
             PlayerPrefs.SetInt("deaths", deaths);
 
-            _anim.SetInteger("state", 0);
+            _anim.Play("leave");
             AddSeal(1);            
-            Invoke("DeleteSeal", 2f);
+            Invoke("DeleteSeal", 1f);
         }
     }
 
