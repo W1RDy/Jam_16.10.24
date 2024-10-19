@@ -36,7 +36,7 @@ public class DropZone : MonoBehaviour, IDropHandler
 
     private void DeleteSeal()
     {
-        _generator.isChecked = true;
+        _generator.isChecked = false;
         _sealPlace.gameObject.SetActive(false);
         _generator.AddNewCat();
     }
@@ -45,6 +45,6 @@ public class DropZone : MonoBehaviour, IDropHandler
     {
         _sealPlace.gameObject.SetActive(true);
         _sealPlace.sprite = _seals[number];
-        _generator.isChecked = false;
+        _generator.isChecked = true;
     }
 }

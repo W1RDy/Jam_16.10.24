@@ -9,7 +9,7 @@ public class CatParameter : ScriptableObject
     public List<string> names;
     public List<string> reasons;
     public List<string> natures;
-    public List<Image> images;
+    public List<Sprite> images;
 
     [SerializeField] private ChartsParamsSO _chartsParams;
 

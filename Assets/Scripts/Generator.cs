@@ -21,7 +21,7 @@ public class Generator : MonoBehaviour, IGameLoopComponent
     private List<string> _catNames;
     private List<string> _catReasons;
     private List<string> _catNatures;
-    private List<Image> _catImages;
+    private List<Sprite> _catImages;
 
     private ChartsParamsSO _chartsParamsSO;
 
@@ -53,7 +53,7 @@ public class Generator : MonoBehaviour, IGameLoopComponent
         OnStartGeneration?.Invoke();
         _isGenerated = false;
         int randomImages = Random.Range(0, _catImages.Count);
-        _image = _catImages[randomImages];
+        _image.sprite = _catImages[randomImages];
         _anim.SetInteger("state", 1);
         CleanCat();
     }
