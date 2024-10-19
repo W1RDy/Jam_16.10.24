@@ -1867,6 +1867,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1093618337774615495, guid: b5e2be3cb21a5d949bf7e3e89c76bf7b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1489311698}
+    - target: {fileID: 1093618337774615495, guid: b5e2be3cb21a5d949bf7e3e89c76bf7b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093618337774615495, guid: b5e2be3cb21a5d949bf7e3e89c76bf7b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CanvasManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2066281695744239497, guid: b5e2be3cb21a5d949bf7e3e89c76bf7b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
