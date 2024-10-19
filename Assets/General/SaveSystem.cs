@@ -9,6 +9,8 @@ public class SaveData
     public int CoinsCount = 0;
     public List<int> BoughtGoodsIndexes = new List<int>();
     public int Deaths = 0;
+    public bool IsHaveGame = false;
+    public string Name = "";
 }
 
 public class SaveSystem : MonoBehaviour
@@ -47,6 +49,11 @@ public class SaveSystem : MonoBehaviour
             _data = JsonUtility.FromJson<SaveData>(json);
         }
 
+    }
+
+    public void ResetSavings()
+    {
+        _data = new SaveData();
     }
 
     private void OnApplicationQuit()
