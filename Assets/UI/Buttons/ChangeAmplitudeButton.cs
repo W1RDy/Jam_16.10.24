@@ -9,6 +9,7 @@ public class ChangeAmplitudeButton : CustomButton
 
     protected override void OnClick()
     {
+        AudioManager.Instance.PlaySound("click");
         OnChangeAmplitude?.Invoke(_amplitudeChangeValue);
     }
 }

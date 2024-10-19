@@ -34,3 +34,6 @@ MonoBehaviour:
   - _index: stamp
     _audioClip: {fileID: 8300000, guid: d78cdb7940b4ebf48ae74a23e232958b, type: 3}
     _volume: 0.5
+  - _index: appearances
+    _audioClip: {fileID: 8300000, guid: 3f7d427837585aa4f804bc97a00d2f62, type: 3}
+    _volume: 0.5

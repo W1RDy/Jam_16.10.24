@@ -6,7 +6,6 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour 
 {
     [SerializeField] private AudioData _audioData;
-    [SerializeField] private AudioMixerGroup _audioMixerGroup;
     private AudioSource _audioSource;
 
     private AudioData _audioDataInstance;
@@ -14,6 +13,9 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, AudioConfig> _dict = new Dictionary<string, AudioConfig>();
 
     public static AudioManager Instance { get; private set; }
+
+    private float _musicVolume;
+    private float _soundsVolume;
     
     private void Awake()
     {
@@ -22,10 +24,21 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             _audioSource = GetComponent<AudioSource>();
             InitAudioDictionary(_audioData);
+
+            SetVolume();
         }
         else Destroy(gameObject);
 
         DontDestroyOnLoad(Instance);
+    }
+
+    public void SetVolume()
+    {
+        _audioSource.volume /= _musicVolume;
+        _musicVolume = SaveSystem.Instance.SaveData.MusicSettings;
+        _audioSource.volume = _musicVolume;
+
+        _soundsVolume = SaveSystem.Instance.SaveData.SoundsSettings;
     }
 
     private void InitAudioDictionary(AudioData audioData)
@@ -43,14 +56,12 @@ public class AudioManager : MonoBehaviour
         var audio = _dict[index];
 
         if (_audioSource.isPlaying && _audioSource.clip == audio.AudioClip) return;
-        else 
+        else
         {
             if (_audioSource.isPlaying) _audioSource.Stop();
 
             _audioSource.clip = audio.AudioClip;
-
-            _audioSource.volume = audio.Volume;
-            
+            _audioSource.volume = audio.Volume * _musicVolume;
             _audioSource.Play();
         }
     }
@@ -59,7 +70,6 @@ public class AudioManager : MonoBehaviour
     {
         var audio = _dict[index];
 
-        _audioMixerGroup.audioMixer.GetFloat("Sounds", out var mixerVolume);
-        _audioSource.PlayOneShot(audio.AudioClip, audio.Volume * mixerVolume);
+        _audioSource.PlayOneShot(audio.AudioClip, audio.Volume * _soundsVolume);
     }
 }

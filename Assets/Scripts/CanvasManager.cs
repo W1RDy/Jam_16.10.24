@@ -95,6 +95,11 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
+    private void ActivateClickSound()
+    {
+
+    }
+
     public void GameExit()
     {
         print("exit");
