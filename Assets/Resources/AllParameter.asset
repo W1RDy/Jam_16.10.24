@@ -428,5 +428,10 @@ MonoBehaviour:
   - "\u041F\u0440\u0435\u0434\u0430\u043D\u043D\u044B\u0439"
   - "\u0417\u0430\u0432\u0438\u0441\u043B\u0438\u0432\u044B\u0439"
   - "\u0421\u0443\u0435\u0442\u043B\u0438\u0432\u044B\u0439"
-  images: []
+  images:
+  - {fileID: 21300000, guid: 29735caa96062344cb9c2d986b238df9, type: 3}
+  - {fileID: 21300000, guid: dd66721c86b85ac4dab1272d372a8703, type: 3}
+  - {fileID: 21300000, guid: 09e31d6913d8ca04e96eab89d9d96259, type: 3}
+  - {fileID: 21300000, guid: 98efc2695d93f0b4796358ac4f19db62, type: 3}
+  - {fileID: 21300000, guid: 13690e0d4435c4f4da508f730b1f16ac, type: 3}
   _chartsParams: {fileID: 11400000, guid: c1686a68a76283c4ba5b837e55dd2216, type: 2}
