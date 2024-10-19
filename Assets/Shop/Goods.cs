@@ -6,7 +6,10 @@ public class Goods : MonoBehaviour
 
     [SerializeField] private GoodsButton _button;
 
-    private int _index;
+    [SerializeField] private SceneGoodsUpdater _goodsUpdater;
+    [SerializeField] private CoinsCounter _coinsCounter;
+
+    public int Index { get; private set; }
 
     private GoodsView _view;
 
@@ -14,7 +17,7 @@ public class Goods : MonoBehaviour
 
     public void Init(int index, bool isBought)
     {
-        _index = index;
+        Index = index;
         _isBought = isBought;
 
         _view = new GoodsView(gameObject);
@@ -28,14 +31,15 @@ public class Goods : MonoBehaviour
 
     public void Buy()
     {
-        var currentCoins = SaveSystem.Instance.SaveData.CoinsCount;
+        var currentCoins = _coinsCounter.GetCurrentCoins();
 
         if (currentCoins >= _price)
         {
-            SaveSystem.Instance.SaveData.CoinsCount -= _price;
-            SaveSystem.Instance.SaveData.BoughtGoodsIndexes.Add(_index);
+            _coinsCounter.RemoveCoins(_price);
+            SaveSystem.Instance.SaveData.BoughtGoodsIndexes.Add(Index);
             _view.HideGoods();
 
+            _goodsUpdater.ActivateGoods(Index);
             _isBought = true;
             Unsubscribe();
         }

@@ -11,6 +11,8 @@ public class DropZone : MonoBehaviour, IDropHandler
     [SerializeField] private Image _sealPlace;
     [SerializeField] private Animator _anim;
 
+    [SerializeField] private CoinsCounter _coinsCounter;
+
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedObject = eventData.pointerDrag;
@@ -19,7 +21,9 @@ public class DropZone : MonoBehaviour, IDropHandler
         {
             _anim.SetInteger("state", 0);
             AddSeal(0);           
-            Invoke("DeleteSeal", 1f);              
+            Invoke("DeleteSeal", 1f);
+
+            _coinsCounter.AddCoins(1);
         }
 
         if (droppedObject.TryGetComponent(out DeadSeal deadSeal) && !_generator.isChecked)
@@ -31,6 +35,8 @@ public class DropZone : MonoBehaviour, IDropHandler
             _anim.SetInteger("state", 0);
             AddSeal(1);            
             Invoke("DeleteSeal", 2f);
+
+            _coinsCounter.AddCoins(1);
         }
     }
 
