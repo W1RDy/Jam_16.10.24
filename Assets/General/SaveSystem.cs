@@ -11,6 +11,9 @@ public class SaveData
     public int Deaths = 0;
     public bool IsHaveGame = false;
     public string Name = "";
+
+    public float MusicSettings = 0.5f;
+    public float SoundsSettings = 0.5f;
 }
 
 public class SaveSystem : MonoBehaviour
@@ -53,7 +56,15 @@ public class SaveSystem : MonoBehaviour
 
     public void ResetSavings()
     {
+        var musicSettings = _data.MusicSettings;
+        var volumeSettings = _data.SoundsSettings;
+        var name = _data.Name;
+
         _data = new SaveData();
+
+        _data.MusicSettings = musicSettings;
+        _data.SoundsSettings = volumeSettings;
+        _data.Name = name;
     }
 
     private void OnApplicationQuit()

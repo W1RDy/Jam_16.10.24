@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1cac9c3cdcdfb548a0abf3bc6a27812, type: 3}
+  m_Name: AudioData
+  m_EditorClassIdentifier: 
+  _audios:
+  - _index: main
+    _audioClip: {fileID: 8300000, guid: 1ece7679db0c18a4a8059d99ee6b5fb1, type: 3}
+    _volume: 0.5
+  - _index: menu
+    _audioClip: {fileID: 8300000, guid: f83d2621b8e96714eb2de1fee2c41b84, type: 3}
+    _volume: 0.5
+  - _index: appear
+    _audioClip: {fileID: 8300000, guid: 62b744323b9fd174da0ceecab71cc3ed, type: 3}
+    _volume: 0.5
+  - _index: click
+    _audioClip: {fileID: 8300000, guid: f716eca7749cc824e9bcbee1f33de371, type: 3}
+    _volume: 0.5
+  - _index: coinDrop
+    _audioClip: {fileID: 8300000, guid: df645bfd6f4e16c4ab5515b24acc19ea, type: 3}
+    _volume: 0.5
+  - _index: lamp
+    _audioClip: {fileID: 8300000, guid: 113a79f63e658bf47ae58949c0e32aea, type: 3}
+    _volume: 0.5
+  - _index: stamp
+    _audioClip: {fileID: 8300000, guid: d78cdb7940b4ebf48ae74a23e232958b, type: 3}
+    _volume: 0.5
