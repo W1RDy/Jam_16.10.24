@@ -5683,6 +5683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be971594d362794fbfe180b10114b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 712060696}
 --- !u!225 &1681467698
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -6693,6 +6694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be971594d362794fbfe180b10114b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 712060696}
 --- !u!114 &1913705845
 MonoBehaviour:
   m_ObjectHideFlags: 0
