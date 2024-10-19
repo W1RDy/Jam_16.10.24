@@ -17,6 +17,8 @@ public class CanvasManager : MonoBehaviour
 
     void Start()
     {
+        //SaveSystem.Instance.ResetSavings();
+
         _main.SetActive(true);
         _settings.SetActive(false);
         _authors.SetActive(false);
@@ -59,20 +61,27 @@ public class CanvasManager : MonoBehaviour
 
     public void WatchResult()
     {
+
+        if (!SaveSystem.Instance.SaveData.IsHaveGame)
+        {
+            print("exit"); 
+            Application.Quit();
+        }
+
         _main.SetActive(false);
         _settings.SetActive(false);
         _authors.SetActive(false);
         _nameAsk.SetActive(false);
         _result.SetActive(true);
 
-        string goodText = "Добрый день, " + PlayerPrefs.GetString("name") + "! Поздравляем!\r\n\r\nВы молодец! Ни один котик не пострадал. Мы гордимся Вами!\r\n\r\nкоманда кешью";
-        string badText = "Добрый день, " + PlayerPrefs.GetString("name") + "! Поздравляем!\r\n\r\nВы своими собственными руками убили " + PlayerPrefs.GetInt("deaths") + " котиков.\r\nХотя никто вам не говорил этого делать.\r\nНикто не говорил что стоящая в цыганском шатре коробка Шредингера показывает правду и распутывает квантовое состояние этих милых запутавшихся котиков.\r\nНо вы почему-то возомнили себя мессией и жрецом решающим судьбу распутывая какие-то квантовые волны.\r\n\r\nДовольны?\r\n\r\nкоманда кешью ";
+        string goodText = "Добрый день, " + SaveSystem.Instance.SaveData.Name + "! Поздравляем!\r\n\r\nВы молодец! Ни один котик не пострадал. Мы гордимся Вами!\r\n\r\nкоманда кешью";
+        string badText = "Добрый день, " + SaveSystem.Instance.SaveData.Name + "! Поздравляем!\r\n\r\nВы своими собственными руками убили " + SaveSystem.Instance.SaveData.Deaths + " котиков.\r\nХотя никто вам не говорил этого делать.\r\nНикто не говорил что стоящая в цыганском шатре коробка Шредингера показывает правду и распутывает квантовое состояние этих милых запутавшихся котиков.\r\nНо вы почему-то возомнили себя мессией и жрецом решающим судьбу распутывая какие-то квантовые волны.\r\n\r\nДовольны?\r\n\r\nкоманда кешью ";
 
-        if (PlayerPrefs.HasKey("deaths") && PlayerPrefs.GetInt("deaths") == 0)
+        if (SaveSystem.Instance.SaveData.Deaths == 0)
         {
             _resultText.text = goodText;
         }
-        else if (PlayerPrefs.HasKey("deaths") && PlayerPrefs.GetInt("deaths") > 0)
+        else if (SaveSystem.Instance.SaveData.Deaths > 0)
         {
             _resultText.text = badText;
         }
